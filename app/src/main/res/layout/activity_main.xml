@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/material_dynamic_primary70"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/txt_musicTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Test music title" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_musicTitle" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_running_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:minWidth="45dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/seekbar"
+        app:layout_constraintEnd_toStartOf="@id/seekbar"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_music"
+        tools:text="2.02" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_totalTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="45dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/seekbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/seekbar"
+        app:layout_constraintTop_toBottomOf="@id/img_music"
+        tools:text="02.50" />
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_totalTime"
+        app:layout_constraintStart_toEndOf="@+id/txt_running_time"
+        app:layout_constraintTop_toBottomOf="@+id/img_music" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_previous"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/ic_skip_previous"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_playPause"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toStartOf="@id/img_next"
+        app:layout_constraintStart_toEndOf="@+id/img_previous"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_next"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_skip_next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_song_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_next"
+        tools:listitem="@layout/rv_song" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_library_music" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

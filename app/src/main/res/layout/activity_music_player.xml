@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/material_dynamic_primary20">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_image_search"
+            android:tint="@color/material_dynamic_neutral70"
+            app:layout_constraintEnd_toStartOf="@+id/sw_theam"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/sw_theam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@drawable/ic_music_note"
+            android:drawablePadding="5dp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:drawableTint="@color/material_dynamic_neutral_variant50"
+            android:text="@string/song_title"
+            android:textColor="@color/material_dynamic_primary70"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sw_theam" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_artist_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/song_title"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:textColor="@color/material_dynamic_primary70"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_name" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_song"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_artist_name" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_running_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:minWidth="45dp"
+            android:textAlignment="center"
+            android:textColor="@color/material_dynamic_primary80"
+            app:layout_constraintEnd_toStartOf="@id/seekbar"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_song"
+            tools:text="2.05" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txt_totalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:minWidth="45dp"
+            android:textAlignment="center"
+            android:textColor="@color/material_dynamic_primary80"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/seekbar"
+            app:layout_constraintTop_toBottomOf="@id/img_song"
+            tools:text="2.50" />
+
+        <SeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:progressBackgroundTint="@color/material_dynamic_primary80"
+            android:progressTint="@color/material_dynamic_primary100"
+            android:thumbTint="@color/material_dynamic_neutral70"
+            app:layout_constraintEnd_toStartOf="@+id/txt_totalTime"
+            app:layout_constraintStart_toEndOf="@+id/txt_running_time"
+            app:layout_constraintTop_toBottomOf="@+id/img_song" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_previous"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/ic_skip_previous"
+            android:tint="@color/material_dynamic_primary50"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_playPause"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:tint="@color/material_dynamic_primary50"
+            app:layout_constraintEnd_toStartOf="@id/img_next"
+            app:layout_constraintStart_toEndOf="@+id/img_previous"
+            app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_next"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_skip_next"
+            android:tint="@color/material_dynamic_primary50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
