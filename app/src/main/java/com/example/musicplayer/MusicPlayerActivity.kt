@@ -1,5 +1,6 @@
 package com.example.musicplayer
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
@@ -7,9 +8,12 @@ import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.SeekBar
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.net.toUri
+import com.example.musicplayer.data.AudioFile
 import com.example.musicplayer.databinding.ActivityMusicPlayerBinding
 import com.example.musicplayer.utils.musicNotification
 import java.util.concurrent.TimeUnit
@@ -61,8 +65,78 @@ class MusicPlayerActivity : DeviceMusic() {
         binding.txtName.text = songName
         binding.txtArtistName.text = songArtist
 
+        songPath?.let { setSongDetails(it, songDuration) }
+
+        playSong = MediaPlayer.create(this, songPath?.toUri())
+        binding.imgPlayPause.setColorFilter(resources.getColor(com.google.android.material.R.color.material_dynamic_neutral20))
+        binding.imgPlayPause.setBackgroundResource(R.drawable.ic_pause)
+
+        playMusic()
+
+        val bundle = intent.getBundleExtra("my_bundle")
+        val myValue = bundle?.getInt("BG_IMAGE")
+        if (myValue != null) {
+            binding.clMain.setBackgroundResource(myValue.toInt())
+
+        }
+
+        val audioFiles = getAudioFilesFromDevice()
+
+        //Button Setup
+        binding.imgSelect.setOnClickListener {
+            val intent = Intent(this, BackgroundSelectActivity::class.java)
+            startActivity(intent)
+        }
+        val position: Int = MyPreferences.getIntegerPref(this, "SONG_POSITION")
+        currentIndex = position
+        binding.imgNext.setOnClickListener {
+            currentIndex++
+            if (currentIndex >= songsList.size) {
+                currentIndex = 0
+            }
+            playSong.stop()
+            playSong.reset()
+            playSong.setDataSource(songsList[currentIndex])
+            playSong.prepare()
+            playSong.start()
+
+            //Set Next Music Details
+
+            val nextSongPath = audioFiles[currentIndex].path
+            val nextDuration = audioFiles[currentIndex].duration
+
+            binding.txtName.text = audioFiles[currentIndex].name
+            binding.txtArtistName.text = audioFiles[currentIndex].artist
+            setSongDetails(nextSongPath, nextDuration.toInt())
+
+        }
+
+        binding.imgPrevious.setOnClickListener {
+            playSong.stop()
+            currentIndex--
+            if (currentIndex < 0) {
+                currentIndex = songsList.size - 1
+            }
+            playSong.reset()
+            playSong.setDataSource(songsList[currentIndex])
+            playSong.prepare()
+            playSong.start()
+
+            //Set Previous Music Details
+
+            val previousSongPath = audioFiles[currentIndex].path
+            val previousDuration = audioFiles[currentIndex].duration
+
+            binding.txtName.text = audioFiles[currentIndex].name
+            binding.txtArtistName.text = audioFiles[currentIndex].artist
+            setSongDetails(previousSongPath, previousDuration.toInt())
+
+        }
+    }
+
+    private fun setSongDetails(setSongPath: String, setSongDuration: Int) {
         val mmr = MediaMetadataRetriever()
-        mmr.setDataSource(songPath)
+        mmr.setDataSource(setSongPath)
         val data = mmr.embeddedPicture
         if (data != null) {
             val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
@@ -82,68 +156,18 @@ class MusicPlayerActivity : DeviceMusic() {
         } else {
             binding.imgSong.setImageResource(R.drawable.ic_play)
         }
-        minutes = TimeUnit.MILLISECONDS.toMinutes(songDuration.toLong())
-        second = (TimeUnit.MILLISECONDS.toSeconds(songDuration.toLong()) % 60)
+        minutes = TimeUnit.MILLISECONDS.toMinutes(setSongDuration.toLong())
+        second = (TimeUnit.MILLISECONDS.toSeconds(setSongDuration.toLong()) % 60)
 
         binding.txtTotalTime.text = ("$minutes : $second")
-
-        playSong = MediaPlayer.create(this, songPath?.toUri())
-        binding.imgPlayPause.setColorFilter(resources.getColor(com.google.android.material.R.color.material_dynamic_neutral20))
-        binding.imgPlayPause.setBackgroundResource(R.drawable.ic_pause)
-
-        playMusic()
-
-        val bundle = intent.getBundleExtra("my_bundle")
-        val myValue = bundle?.getInt("BG_IMAGE")
-        if (myValue != null) {
-            binding.clMain.setBackgroundResource(myValue.toInt())
-
-        }
-
-        //Button Setup
-        binding.imgSelect.setOnClickListener {
-            val intent = Intent(this, BackgroundSelectActivity::class.java)
-            startActivity(intent)
-        }
-        val position: Int = MyPreferences.getIntegerPref(this, "SONG_POSITION")
-        currentIndex = position
-        Log.e("TAG","PoSITOION : -> ${position}  currentIndex : -> ${currentIndex}--> ")
-        binding.imgNext.setOnClickListener {
-            currentIndex++
-            if (currentIndex >= songsList.size) {
-                currentIndex = 0
-            }
-            playSong.stop()
-            playSong.reset()
-            playSong.setDataSource(songsList[currentIndex])
-            playSong.prepare()
-            playSong.start()
-
-            binding.txtName.text = songName
-            binding.txtArtistName.text = songArtist
-        }
-
-        binding.imgPrevious.setOnClickListener {
-            playSong.stop()
-            currentIndex--
-            if (currentIndex < 0) {
-                currentIndex = songsList.size - 1
-            }
-            playSong.reset()
-            playSong.setDataSource(songsList[currentIndex])
-            playSong.prepare()
-            playSong.start()
-
-            binding.txtName.text = songName
-            binding.txtArtistName.text = songArtist
-        }
-
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+        handler.removeCallbacks(runnable)
         val intent = Intent(this, DeviceMusic::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left)
     }
 
     override fun onDestroy() {
@@ -187,7 +211,8 @@ class MusicPlayerActivity : DeviceMusic() {
 
         runnable = Runnable {
             val rMinutes = TimeUnit.MILLISECONDS.toMinutes(playSong.currentPosition.toLong())
-            val rSeconds = (TimeUnit.MILLISECONDS.toSeconds(playSong.currentPosition.toLong()) % 60)
+            val rSeconds =
+                (TimeUnit.MILLISECONDS.toSeconds(playSong.currentPosition.toLong()) % 60)
 
             binding.txtRunningTime.text = ("$rMinutes:$rSeconds")
             binding.seekbar.progress = playSong.currentPosition
@@ -199,6 +224,4 @@ class MusicPlayerActivity : DeviceMusic() {
             binding.seekbar.progress = 0
         }
     }
-
-
 }

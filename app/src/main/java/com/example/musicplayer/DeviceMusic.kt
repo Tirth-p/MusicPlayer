@@ -37,7 +37,7 @@ open class DeviceMusic : AppCompatActivity() {
     }
 
     @SuppressLint("Range")
-    private fun getAudioFilesFromDevice(): List<AudioFile> {
+    fun getAudioFilesFromDevice(): List<AudioFile> {
         val audioFile = mutableListOf<AudioFile>()
         val uri = Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(Media._ID, Media.DISPLAY_NAME,Media.DATA,Media.ARTIST,Media.DURATION)

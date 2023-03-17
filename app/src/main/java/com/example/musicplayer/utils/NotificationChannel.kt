@@ -1,19 +1,26 @@
 package com.example.musicplayer.utils
 
+import android.Manifest
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.musicplayer.R
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context.NOTIFICATION_SERVICE
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Handler
+import android.view.MotionEvent
 import android.widget.RemoteViews
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import java.util.concurrent.TimeUnit
 
 /**
@@ -53,14 +60,14 @@ fun musicNotification(
     val packageName = mContext.applicationContext.packageName
 
     //Set Small Notification
-    val notificationLayout = RemoteViews(packageName, R.layout.music_notification_small)
+    val notificationLayoutSmall = RemoteViews(packageName, R.layout.music_notification_small)
 
-    notificationLayout.setTextViewText(R.id.txt_title_notification, mName)
-    notificationLayout.setTextViewText(R.id.txt_artist_notification, mArtist)
+    notificationLayoutSmall.setTextViewText(R.id.txt_title_notification, mName)
+    notificationLayoutSmall.setTextViewText(R.id.txt_artist_notification, mArtist)
 
-    notificationLayout.setImageViewResource(R.id.img_previous_notification, R.drawable.ic_skip_previous)
-    notificationLayout.setImageViewResource(R.id.img_next_notification, R.drawable.ic_pause_arrow)
-    notificationLayout.setImageViewResource(R.id.img_play_pause_notification, R.drawable.ic_skip_next)
+    notificationLayoutSmall.setImageViewResource(R.id.img_previous_notification, R.drawable.ic_skip_previous)
+    notificationLayoutSmall.setImageViewResource(R.id.img_next_notification, R.drawable.ic_pause_arrow)
+    notificationLayoutSmall.setImageViewResource(R.id.img_play_pause_notification, R.drawable.ic_skip_next)
 //    notificationLayout.setImageViewResource(R.id.img_close_notification, R.drawable.ic_close)
 
     //Set Big Notification
@@ -87,6 +94,7 @@ fun musicNotification(
     notificationLayoutBig.setImageViewResource(R.id.img_next_notification_large, R.drawable.ic_skip_next)
     notificationLayoutBig.setImageViewResource(R.id.img_close_notification_large, R.drawable.ic_close)
 
+/*
     runnable = Runnable {
         val rMinutes = TimeUnit.MILLISECONDS.toMinutes(playSong.currentPosition.toLong())
         val rSeconds = (TimeUnit.MILLISECONDS.toSeconds(playSong.currentPosition.toLong()) % 60)
@@ -100,16 +108,59 @@ fun musicNotification(
         handler.postDelayed(runnable, 0)
     }
     handler.postDelayed(runnable, 0)
+*/
 
 
     val notification = NotificationCompat.Builder(mContext, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_library_music)
         .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-        .setCustomContentView(notificationLayout)
+        .setCustomContentView(notificationLayoutSmall)
         .setCustomBigContentView(notificationLayoutBig)
         .setPriority(NotificationCompat.PRIORITY_LOW)
         .build()
 
     notificationManager.notify(NOTIFICATION_ID, notification)
+
+/*
+// Gestures android notification
+
+// Create the notification layout for the collapsed state
+    val collapsedView = RemoteViews(packageName, R.layout.music_notification_small)
+
+// Create the notification layout for the expanded state
+    val expandedView = RemoteViews(packageName, R.layout.music_notification_large)
+
+// Set up the notification builder
+    val builder = NotificationCompat.Builder(mContext, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_library_music)
+        .setContentTitle("Notification Title")
+        .setContentText("Notification Text")
+        .setContent(collapsedView)
+        .setCustomBigContentView(notificationLayoutBig)
+
+// Set up the touch events for the notification layout
+    val intent = Intent(mContext, MyBroadcastReceiver::class.java)
+    val pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+    notificationLayoutSmall.setOnClickPendingIntent(R.id.cv_songList_notification, pendingIntent)
+    notificationLayoutSmall.setOnClickPendingIntent(R.id.cv_songList_notification, pendingIntent)
+    notificationLayoutBig.setOnClickPendingIntent(R.id.cv_songList_notification_large, pendingIntent)
+    notificationLayoutBig.setOnClickPendingIntent(R.id.cv_songList_notification_large, pendingIntent)
+
+// Set up the intent that will be broadcasted when the user swipes down on the notification
+    val swipeIntent = Intent(mContext, MyBroadcastReceiver::class.java)
+    swipeIntent.putExtra("swiped", true)
+    val swipePendingIntent = PendingIntent.getBroadcast(mContext, 0, swipeIntent, PendingIntent.FLAG_IMMUTABLE)
+    builder.setDeleteIntent(swipePendingIntent)
+
+// Create the notification and show it
+    val notification = builder.build()
+    val notificationManagerChanges = mContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    notificationManagerChanges.notify(NOTIFICATION_ID, notification)
+    */
+
+
+
+
+
 
 }

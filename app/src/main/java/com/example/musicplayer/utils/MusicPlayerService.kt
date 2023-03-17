@@ -1,4 +1,4 @@
-package com.example.musicplayer.adapter
+package com.example.musicplayer.utils
 
 import android.app.Service
 import android.content.Intent
