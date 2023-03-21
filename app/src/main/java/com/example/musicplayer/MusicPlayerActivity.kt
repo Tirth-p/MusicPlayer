@@ -1,6 +1,5 @@
 package com.example.musicplayer
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
@@ -8,12 +7,9 @@ import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
-import android.provider.MediaStore
-import android.util.Log
+import android.os.Looper
 import android.widget.SeekBar
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.net.toUri
-import com.example.musicplayer.data.AudioFile
 import com.example.musicplayer.databinding.ActivityMusicPlayerBinding
 import com.example.musicplayer.utils.musicNotification
 import java.util.concurrent.TimeUnit
@@ -80,6 +76,7 @@ class MusicPlayerActivity : DeviceMusic() {
 
         }
 
+        songsList.clear()
         val audioFiles = getAudioFilesFromDevice()
 
         //Button Setup

@@ -1,27 +1,20 @@
 package com.example.musicplayer.utils
 
-import android.Manifest
-import android.content.Context
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import com.example.musicplayer.R
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context.NOTIFICATION_SERVICE
-import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Handler
-import android.view.MotionEvent
 import android.widget.RemoteViews
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
-import java.util.concurrent.TimeUnit
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import com.example.musicplayer.R
+import com.example.musicplayer.giveDarkFadelEffect
 
 /**
  * Created by Tirth Patel.
@@ -81,7 +74,8 @@ fun musicNotification(
     val data = mmr.embeddedPicture
     if (data != null) {
         bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
-        notificationLayoutBig.setImageViewBitmap(R.id.song_img_notification, bitmap)
+        val setFadelImage = giveDarkFadelEffect(bitmap)
+        notificationLayoutBig.setImageViewBitmap(R.id.song_img_notification, setFadelImage)
     }
 
     notificationLayoutBig.setTextViewText(
@@ -157,10 +151,5 @@ fun musicNotification(
     val notificationManagerChanges = mContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     notificationManagerChanges.notify(NOTIFICATION_ID, notification)
     */
-
-
-
-
-
 
 }

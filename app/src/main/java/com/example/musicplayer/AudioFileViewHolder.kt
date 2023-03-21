@@ -34,7 +34,6 @@ class AudioFileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
             Log.e("TAG", "onBindViewHolder: $position")
             Log.e("TAG", "onBindViewHolder: $audioFile")
-
         }
         val dataImage = audioFile.path
 

@@ -45,12 +45,13 @@ class MainActivity : MusicCallBack, AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        askForPermission()
+       /* askForPermission()
         init()
         playMusic(1)
-        getRawFilePath(1)
+        getRawFilePath(1)*/
     }
 
+/*
     private fun init() {
 
         binding.floatingActionButton.setOnClickListener {
@@ -97,19 +98,25 @@ class MainActivity : MusicCallBack, AppCompatActivity() {
             mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
 
 
-        /* val mmr = MediaMetadataRetriever()
+        */
+/* val mmr = MediaMetadataRetriever()
          mmr.setDataSource(albumUri.toString())
          val data = mmr.embeddedPicture
          val bitmap = BitmapFactory.decodeByteArray(data, 0, data!!.size)
-         binding.imgMusic.setImageBitmap(bitmap)*/
-    }
+         binding.imgMusic.setImageBitmap(bitmap)*//*
 
+    }
+*/
+
+/*
     private fun askForPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf( Manifest.permission.READ_EXTERNAL_STORAGE),READ_REQUEST_CODE)
         }
     }
+*/
 
+/*
     fun playMusic(possion: Int) {
 
         binding.seekbar.progress = 0
@@ -159,7 +166,9 @@ class MainActivity : MusicCallBack, AppCompatActivity() {
             binding.seekbar.progress = 0
         }
     }
+*/
 
+/*
     fun getRawFilePath(possision:Int) {
         val `is`: InputStream = this.resources.openRawResource(R.raw.music5)
         val br = BufferedReader(InputStreamReader(`is`))
@@ -178,9 +187,11 @@ class MainActivity : MusicCallBack, AppCompatActivity() {
             e.printStackTrace()
         }
     }
+*/
+
 
     override fun onClickHandel(position: Int) {
-        if (position == 0) {
+  /*      if (position == 0) {
             albumUri = Uri.parse("android.resource://$packageName/raw/music")
         } else {
             albumUri = Uri.parse("android.resource://$packageName/raw/music$position")
@@ -208,6 +219,6 @@ class MainActivity : MusicCallBack, AppCompatActivity() {
         albumUri = Uri.parse("android.resource://$packageName/raw/music")
 
         playMusic(position)
-        getRawFilePath(position)
+        getRawFilePath(position)*/
     }
 }

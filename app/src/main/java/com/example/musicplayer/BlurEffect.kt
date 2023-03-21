@@ -1,9 +1,6 @@
 package com.example.musicplayer
 
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.renderscript.Allocation
 import android.renderscript.Element
@@ -47,3 +44,22 @@ fun applyBlurBackground(layout: ConstraintLayout, bitmap: Bitmap) {
     rsContext.destroy()
 }
 
+fun giveDarkFadelEffect(originalBitmap : Bitmap): Bitmap{
+
+// Create a new Bitmap with the same dimensions as the original Bitmap
+    val bitmap = Bitmap.createBitmap(originalBitmap.width, originalBitmap.height, Bitmap.Config.ARGB_8888)
+
+// Create a Canvas and draw the original Bitmap onto it
+    val canvas = Canvas(bitmap)
+    canvas.drawBitmap(originalBitmap, 0f, 0f, null)
+
+// Create a Paint object with a black color and an alpha of 80 (out of 255)
+    val paint = Paint()
+    paint.color = Color.argb(150, 0, 0, 0)
+
+// Draw a rectangle over the entire Bitmap using the Paint object
+    canvas.drawRect(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat(), paint)
+
+return bitmap
+
+}
