@@ -10,6 +10,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayer.data.AudioFile
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Created by Tirth Patel.
@@ -35,7 +39,33 @@ class AudioFileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             Log.e("TAG", "onBindViewHolder: $position")
             Log.e("TAG", "onBindViewHolder: $audioFile")
         }
-        val dataImage = audioFile.path
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val dataImage = audioFile.path
+
+            var data: ByteArray? = null
+
+            try {
+                val mmr = MediaMetadataRetriever()
+                mmr.setDataSource(dataImage)
+                data = mmr.embeddedPicture
+                // Rest of the code
+            } catch (e: Exception) {
+                // Handle the exception appropriately
+                Log.e("TAG", "Error retrieving metadata: ${e.message}")
+            }
+            withContext(Dispatchers.Main) {
+                if (data != null) {
+                    val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
+                    itemView.findViewById<ImageView>(R.id.img_song).setImageBitmap(bitmap)
+                } else {
+                    itemView.findViewById<ImageView>(R.id.img_song).setImageResource(R.drawable.ic_play)
+
+                }
+            }
+        }
+
+      /*  val dataImage = audioFile.path
 
         val mmr = MediaMetadataRetriever()
         mmr.setDataSource(dataImage)
@@ -46,7 +76,7 @@ class AudioFileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             itemView.findViewById<ImageView>(R.id.img_song).setImageBitmap(bitmap)
         } else {
             itemView.findViewById<ImageView>(R.id.img_song).setImageResource(R.drawable.ic_play)
-        }
+        }*/
 
     }
 }

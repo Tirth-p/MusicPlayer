@@ -106,12 +106,13 @@
 
         <SeekBar
             android:id="@+id/seekbar"
-            android:layout_width="300dp"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:progressBackgroundTint="@color/material_dynamic_primary80"
             android:progressTint="@color/material_dynamic_primary100"
             android:thumbTint="@color/material_dynamic_neutral70"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_totalTime"
             app:layout_constraintEnd_toStartOf="@+id/txt_totalTime"
             app:layout_constraintStart_toEndOf="@+id/txt_running_time"
             app:layout_constraintTop_toBottomOf="@+id/img_song" />
